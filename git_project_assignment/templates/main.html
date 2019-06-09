@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        .center{
+            text-align: center;
+            font-weight: bolder;
+        }
+    </style>
+    <title>Index Page</title>
+</head>
+<body>
+    <div class="jumbotron">
+        <div class="container">
+                <h1>Index Page</h1>
+                {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
+                    {% if messages %}                            <!-- check if there are any messages -->
+                        {% for message in messages %}            <!-- loop through the messages -->
+                            <p>{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <hr>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="center">Register</h3>
+                        <form action='/users/add' method='post'>
+                            <p>First Name <input type='text' name='first_name'></p>
+                            <p>Last Name <input type='text' name='last_name'></p>
+                            <p>Email <input type='text' name='email'></p>
+                            <p>Password <input type='password' name='password1'></p>
+                            <p>Confirm Password <input type='password' name='password2'></p>
+                            <p><input type='submit' value='Register'></p>
+                        </form>
+                        
+                            <hr>
+                    </div>
+
+
+                   <div class="col-sm-6">
+                       <h3 class="center">Login</h3>
+                        <form action='/users/login' method='post'>
+                            <p>Email <input type='text' name='logemail'></p>
+                            <p>Password <input type='password' name='logpassword'></p>
+                            <p><input type='submit' value='Login'></p>
+                    
+                        </form>
+                        <hr>
+                   </div>
+               </div>
+            
+               
+        </div>
+
+    </div>
+    
+    
+</body>
+</html>
