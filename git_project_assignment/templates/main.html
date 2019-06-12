@@ -4,54 +4,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
     <style>
         .center{
             text-align: center;
             font-weight: bolder;
         }
     </style>
-    <title>Index Page</title>
+    <title>Main Page</title>
 </head>
 <body>
-    <div class="jumbotron">
-        <div class="container">
-                <h1>Index Page</h1>
-                {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
-                    {% if messages %}                            <!-- check if there are any messages -->
-                        {% for message in messages %}            <!-- loop through the messages -->
-                            <p>{{message}}</p>                   <!-- display each message in a paragraph tag -->
+    <div class="container">
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="center">Welcome to the Great Ideas Site!</h1>
+                <h3 class="center">Spread a great idea and vote for those you like!</h3>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p>{{message}}</p>
                         {% endfor %}
                     {% endif %}
                 {% endwith %}
-                <hr>
+            </div>
+
+            <hr>
+
+
+            <div class="container">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <h3 class="center">Register</h3>
-                        <form action='/users/add' method='post'>
-                            <p>First Name <input type='text' name='first_name'></p>
-                            <p>Last Name <input type='text' name='last_name'></p>
-                            <p>Email <input type='text' name='email'></p>
-                            <p>Password <input type='password' name='password1'></p>
-                            <p>Confirm Password <input type='password' name='password2'></p>
-                            <p><input type='submit' value='Register'></p>
-                        </form>
+                        <form>
+                            <div class="form-group">
+                                <label for="firstName">First name</label>
+                                <input type="text" class="form-control" id="firstName"  placeholder="Enter your first name">
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="lastName">Last name</label>
+                                <input type="text" class="form-control" id="lastName"  placeholder="Enter your last name">
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="alias">Alias</label>
+                                <input type="text" class="form-control" id="alias1"  placeholder="Enter an alias">
+                            </div>
+
+
+
+                            <div class="form-group">
+
+
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password1" placeholder="Password">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="confirm_password2">Confirm Password</label>
+                                <input type="password" class="form-control" id="password2" placeholder="Confirm your password">
+                            </div>
+
+
+
                         
-                            <hr>
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </form>
                     </div>
 
+                    <div class="col-sm-2"></div>
 
-                   <div class="col-sm-6">
-                       <h3 class="center">Login</h3>
-                        <form action='/users/login' method='post'>
-                            <p>Email <input type='text' name='logemail'></p>
-                            <p>Password <input type='password' name='logpassword'></p>
-                            <p><input type='submit' value='Login'></p>
-                    
+
+                    <div class="col-sm-5">
+                        <h3 class="center">Login</h3>
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Login</button>
                         </form>
-                        <hr>
-                   </div>
-               </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            
             
                
         </div>
