@@ -36,23 +36,23 @@
                 <div class="row">
                     <div class="col-sm-5">
                         <h3 class="center">Register</h3>
-                        <form>
+                        <form action='/users/add' method='POST'>
                             <div class="form-group">
                                 <label for="firstName">First name</label>
-                                <input type="text" class="form-control" id="firstName"  placeholder="Enter your first name">
+                                <input type="text" class="form-control" id="firstName" name="first_name" placeholder="Enter your first name">
                             </div>
 
                             <div class="form-group">
 
                                 <label for="lastName">Last name</label>
-                                <input type="text" class="form-control" id="lastName"  placeholder="Enter your last name">
+                                <input type="text" class="form-control" id="lastName" name="last_name"  placeholder="Enter your last name">
                             </div>
 
 
                             <div class="form-group">
 
                                 <label for="alias">Alias</label>
-                                <input type="text" class="form-control" id="alias1"  placeholder="Enter an alias">
+                                <input type="text" class="form-control" id="alias1"  name="alias" placeholder="Enter an alias">
                             </div>
 
 
@@ -61,7 +61,7 @@
 
 
                                 <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="Enter email">
                                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
 
@@ -69,12 +69,12 @@
 
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password1" placeholder="Password">
+                                <input type="password" class="form-control" id="password1" name="password1" placeholder="Password">
                             </div>
 
                             <div class="form-group">
                                 <label for="confirm_password2">Confirm Password</label>
-                                <input type="password" class="form-control" id="password2" placeholder="Confirm your password">
+                                <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm your password">
                             </div>
 
 
@@ -89,15 +89,15 @@
 
                     <div class="col-sm-5">
                         <h3 class="center">Login</h3>
-                        <form>
+                        <form action="/users/login" method="POST">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                <input type="email" class="form-control" id="exampleInputEmail1" name="logemail" aria-describedby="emailHelp" placeholder="Enter email">
                                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <input type="password" class="form-control" id="exampleInputPassword1" name="logpassword" placeholder="Password">
                             </div>
                             <button type="submit" class="btn btn-primary">Login</button>
                         </form>

@@ -42,24 +42,29 @@
     <div class="container">
         
         <div class="jumbotron">
-                {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
-                {% if messages %}                            <!-- check if there are any messages -->
-                    {% for message in messages %}            <!-- loop through the messages -->
-                        <p>{{message}}</p>                   <!-- display each message in a paragraph tag -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{message}}</p>
                     {% endfor %}
                 {% endif %}
             {% endwith %}
+
+
+
+
+
             <h3 class="center">More about this author</h3>
             <hr>
             <div class="container">
-                <h3> <p>Name: {{first}} {{last}}</p></h3>
-                <h3><p>Alias: {{alias}}</p></h3>
-                <h3><p>Email: {{email}}</p></h3>
+                <h3> <p>Name: {{user.first_name}} {{user.last_name}}</p></h3>
+                <h3><p>Alias: {{user.alias}}</p></h3>
+                <h3><p>Email: {{user.email}}</p></h3>
 
                 <hr>
 
-                <p>Total number of posts: {{count of posts}}</p>
-                <p>Total number of likes: {{count of likes}}</p>
+                <p>Total number of posts: count of posts</p>
+                <p>Total number of likes: count of likes</p>
     
             </div>
         </div>
