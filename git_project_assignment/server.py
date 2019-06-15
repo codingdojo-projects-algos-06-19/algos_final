@@ -28,21 +28,27 @@ def add_user_to_db():
     if len(request.form['first_name']) <= 1:
         is_valid = False
         flash("Please enter a FIRST NAME") # maybe replace flashes with Ajax/jQuery if time allows
+        return redirect('/')
     if len(request.form['last_name']) <= 1:
         is_valid = False
         flash("Please enter a LAST NAME")
+        return redirect('/')
     if len(request.form['email']) <= 1:
         is_valid = False
         flash("Please enter an EMAIL")
+        return redirect('/')
     if not EMAIL_REGEX.match(request.form['email']):
         is_valid = False
         flash("Invalid email address format")
+        return redirect('/')
     if len(request.form['password1']) <= 5:
         is_valid = False
         flash("Password must be 5 or more characters")
+        return redirect('/')
     if (request.form['password1'] != request.form['password2']):
         is_valid = False
         flash("Passwords do not match!")
+        return redirect('/')
 
     if is_valid:
         mysql = connectToMySQL('great_ideas')
@@ -71,7 +77,7 @@ def add_user_to_db():
         session['userid'] = result[0]['id']
         flash("You've Successfully Added a Friend!")
 
-    return redirect('/users/welcome')
+        return redirect('/users/welcome')
     
 
 
@@ -139,15 +145,22 @@ def welcome():
         # }
 
         mysql3 = connectToMySQL('great_ideas')
-        ideaText2 = "SELECT * FROM users JOIN ideas ON users.id=ideas.user_id JOIN likes ON ideas.id=likes.quote_id WHERE users.id = likes.user_id ORDER BY ideas.id DESC;"
+        ideaText2 = "SELECT * FROM users JOIN ideas ON users.id=ideas.user_id JOIN likes ON ideas.id=likes.idea_id WHERE users.id = likes.user_id ORDER BY ideas.id DESC;"
         data2 = {
             "_id": session['userid']
         }
 
         mysql3.query_db(ideaText2, data2)
 
+        mysql4 = connectToMySQL('great_ideas')
+        ideaText4 = "SELECT COUNT(id) AS '' FROM users ORDER BY id;"
+        num_users = mysql4.query_db(ideaText4)
 
-        return render_template("welcome.html", result_user=resulting_user[0], resultIdeas = resultIdea)
+        print(num_users)
+
+
+
+        return render_template("welcome.html", result_user=resulting_user[0], resultIdeas = resultIdea, user_count = num_users)
 
 
 
