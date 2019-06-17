@@ -44,7 +44,7 @@
 
             
             <div class="container">
-                <h3><p>{{author}} says: {{idea_piece}}</p></h3>
+                <h3><p>{%for i in author%} {{i['alias']}} {% endfor %} says:</p> <p>{% for i in idea_piece %} {{i['idea']}} {% endfor %}</p></h3>
             </div>
             <hr>
             <p>People who liked this post:</p>
@@ -53,14 +53,14 @@
                         <thead>
                             <tr>
                                 <th scope="col">Alias</th>
-                                <th scope="col">Full Name</th>
+                               {# <th scope="col">Full Name</th> #}
                             </tr>
                         </thead>
                         <tbody>
                             {% for i in userz %}
                             <tr>
-                                <td>{{i['users.alias']}}</td>
-                                <td>{{i['users.first_name']}} {{i['users.last_name']}}</td>
+                                <td>{{i['alias']}}</td>
+                                <td>{{i['first']}} {{i['last']}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>

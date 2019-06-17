@@ -405,12 +405,17 @@ def view_author(id):
 @app.route('/posts/<id>/view_post', methods=['POST'])
 def view_post_info(id):
     mysql = connectToMySQL('great_ideas')
-    query = "SELECT alias FROM users WHERE id IN (SELECT user_id FROM ideas WHERE id = %(_id)s;"
-    data = {"_id": id}
+    query = "SELECT alias AS alias FROM users WHERE id IN (SELECT user_id FROM ideas WHERE id = %(_id)s);"
+    data = {"_id": request.form['person_liked']}
     author= mysql.query_db(query, data)
 
+    print(author)
+    print("*" * 80)
+
+
+
     mysql2 = connectToMySQL('great_ideas')
-    query2 = "SELECT idea_content FROM ideas WHERE id = %(_id)s;"
+    query2 = "SELECT idea_content AS idea FROM ideas WHERE id = %(_id)s;"
     data2 = {"_id": id}
     idea_piece = mysql2.query_db(query2, data2)
 
@@ -421,13 +426,16 @@ def view_post_info(id):
     # query2 = "SELECT"
 
     mysql3 = connectToMySQL('great_ideas')
-    query3 = "SELECT user_id AS users FROM likes WHERE idea_id = %(_id)s;"
+    # query3 = "SELECT user_id AS users FROM likes WHERE idea_id = %(_id)s;"
+    query3= "SELECT alias AS alias, first_name AS first, last_name AS last FROM users WHERE users.id in (SELECT user_id FROM likes WHERE idea_id = 3);"
     data3 = {"_id": id}
     users_by_id = mysql3.query_db(query3, data3)
     
 
     for i in users_by_id:
-        print(i['users'])
+        print(i['alias'])
+        print(i['first'])
+        print(i['last'])
         print("*" * 80)
 
     return render_template('view_post.html', author=author, idea_piece=idea_piece, userz = users_by_id)
