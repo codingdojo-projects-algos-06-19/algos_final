@@ -30,7 +30,7 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <h2>Welcome, {{result_user['first_name']}} {{result_user['last_name']}}</h2>
+            <h2>Welcome, {{result_user['alias']}}!</h2>
             <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
@@ -58,10 +58,10 @@
                     
         
                 </div>
-
+                <p class="center">Number of Registered Users: {% for i in user_count%} {{i['numOfUsers']}} {% endfor %} and growing!</p>
                 <hr>
 
-                User Count: {{user_count}}
+                
                 
                 
                 <div class="container">
@@ -80,20 +80,74 @@
 
                         </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <div class="col-sm-2"></div>
+
+
+
+
+
+
+
+
+
+
+
+
                 
                         <div class="col-sm-5">
                             <div class="center"><label for="ideas_feed"><h3 class="emphasis">Ideas Feed</h3></label></div>
                             <ul class="border">
+
+
+
+
+
                                 {% for x in resultIdeas %}
                                 
                                 <li>
-                                    <p>{{ x['alias']}}: {{x['idea_content']}}</p>
+                                    <p>{{ x['alias']}} says: {{x['idea_content']}}</p>
                                     <p>POSTED BY: <a href='/users/{{x["id"]}}/view_author'>{{x['alias']}} </a> </p>
-                                    <p><form action='/ideas/{{ x["ideas.id"] }}/add_like' method='POST'>
+                                    <p><form action='/posts/{{ x["ideas.id"] }}/add_like' method='POST'>
                                             <button type="submit" class="btn btn-primary">Like/Dislike</button>
-                                            <input type='hidden' value= "{{ session['userid'] }}" name="userLike">
+                                            <input type='hidden' value= "{{ session['userid'] }}" name="userLike"> 
                                     </form> </p>
+
+
+
+                                   <form action='/posts/{{x["ideas.id"]}}/view_post' method='POST'>
+                                    
+                                    <button type="submit" class="btn btn-primary"> More about this post </button>
+                                    
+                                    <input type="hidden" value="{{session['userid']}}" name="person_liked">
+
+                                    <input type="hidden" value="{{x['ideas.id']}}" name="idea_id">
+                                
+                                
+                                </form> 
+                                    
+                                    <p>Users like this</p>
+
+
+
+
+
+
+
 
                                     <p>
                                     {% if session['userid'] == x['user_id']: %}
@@ -104,15 +158,23 @@
                                     {% endif %}
                                     <hr>
                                 </li>
-
-
                                 {% endfor %}
                             </ul>
-
                         </div>
+
+
+
+
+
+
+
+
+
+
+
+
                     </div>
                 </div>
-                    
                 <hr>
                 <p class="text-right"><a class="btn btn-primary" href="/users/logout" role="button">Logout</a></p>
             </div>

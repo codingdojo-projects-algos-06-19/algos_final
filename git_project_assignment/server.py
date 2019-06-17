@@ -64,9 +64,7 @@ def add_user_to_db():
         mysql.query_db(query, data)
 
 
-        session['login'] = True # add this on
-
-        # below we are doing another query for users with this email, and we are storing its id as session['userid']
+        session['login'] = True
 
         mysql2 = connectToMySQL('great_ideas')
         query2 = "SELECT * FROM users WHERE email = %(email2)s;"
@@ -117,46 +115,83 @@ def welcome():
     if not session['login']:
         flash("You're not logged in. Please login or register")
         return redirect('/')
+
     else:
         mysql = connectToMySQL('great_ideas')
         query = "SELECT * FROM users WHERE id = %(seid)s;"
         data = {
             "seid": session['userid']
         }
-
-        # Resulting_user is all the information about the specific user who logged in/register
         resulting_user = mysql.query_db(query, data)
         
 
         mysql2 = connectToMySQL('great_ideas')
         ideaText = "SELECT * FROM users JOIN ideas ON users.id = ideas.user_id WHERE users.id ORDER BY ideas.id DESC;"
-        # quoteText = "SELECT * FROM quotes LEFT JOIN users ON quotes.user_id = users.id ORDER BY quotes.id DESC;"
-        
-        # resultQuote has all the information of users and quotes tied together via users.id = quotes.user_id
         resultIdea = mysql2.query_db(ideaText)
 
-        
+        # for i in resultIdea:
+        #     mysql0 = connectToMySQL('great_ideas')
+        #     query1 = "SELECT COUNT(idea_id) as ideaID FROM likes WHERE idea_id = " + str(i['ideas.id']) + " GROUP BY idea_id"
+        #     resultIdea2 = mysql0.query_db(query1)
+        #     print(resultIdea2)
 
-        # The multiple join
-        # mysql3 = connectToMySQL('quotes_dash2')
-        # quoteText2 = "SELECT * FROM users LEFT JOIN quotes ON users.id = quotes.user_id LEFT JOIN likes ON users.id = likes.user_id WHERE quotes.user_id IN (SELECT likes.id FROM likes WHERE likes.user_id = %(_id)s) ORDER BY quotes.id DESC;"
-        # data2 = {
-        #     "_id": session['userid']
-        # }
+        for i in resultIdea:
+            mysql0 = connectToMySQL('great_ideas')
+            query1 = "SELECT COUNT(idea_id) AS ideaID FROM likes WHERE idea_id = " + str(i['ideas.id']) + " GROUP BY idea_id;"
+            resultIdea2 = mysql0.query_db(query1)
+            print(resultIdea2)
+
+
+
+
+
 
         mysql3 = connectToMySQL('great_ideas')
         ideaText2 = "SELECT * FROM users JOIN ideas ON users.id=ideas.user_id JOIN likes ON ideas.id=likes.idea_id WHERE users.id = likes.user_id ORDER BY ideas.id DESC;"
         data2 = {
             "_id": session['userid']
         }
-
         mysql3.query_db(ideaText2, data2)
 
+
+
+
         mysql4 = connectToMySQL('great_ideas')
-        ideaText4 = "SELECT COUNT(id) AS '' FROM users ORDER BY id;"
+        ideaText4 = "SELECT COUNT(id) AS numOfUsers FROM users ORDER BY id;"
         num_users = mysql4.query_db(ideaText4)
 
-        print(num_users)
+        # print("*" * 80)
+        # print(num_users)
+        # print("*" * 80)
+
+
+        # for i in num_users:
+        #     print("*" * 80)
+        #     print(i['numOfUsers'])
+        #     print("*" * 80)
+
+
+
+        # mysql5 = connectToMySQL('great_ideas')
+        # num_likez = "SELECT COUNT(*) AS numOfLikes FROM likes WHERE %(_id)s ORDER BY id;"
+        # data5 = {"_id": id}
+        # num_likes = mysql5.query_db(num_likez, data5)
+
+
+
+
+        # num_users2 = int(num_users['numOfUsers'])
+        # for i in session['numLikes']:
+            # print("*" * 80)
+        #     print(i['numberLikes'])
+        #     print("*" * 80)
+
+        # print("*" * 80)
+
+        # print(resultIdea)
+        # print("*" * 80)
+
+        
 
 
 
@@ -207,8 +242,7 @@ def write_idea():
 
 
 
-# I'm going to have to figure out how to include DELETE only on the posts that are associated with that user
-# Maybe use an if statement in the template itself
+
 
 @app.route('/ideas/<id>/delete', methods=['POST'])
 def delete_idea(id):
@@ -242,7 +276,7 @@ def delete_idea(id):
 
 
 
-@app.route('/ideas/<id>/add_like', methods=['POST'])
+@app.route('/ideas/<id>/add_like', methods=['GET', 'POST'])
 def add_like(id):
     is_valid = True
     mysql2 = connectToMySQL('great_ideas')
@@ -284,6 +318,44 @@ def add_like(id):
     # likes = mysql4.query_db(query4, data4)
     # session['numLikes'] = likes
 
+
+
+
+
+
+    # mysql4 = connectToMySQL('great_ideas')
+    # query4 = 'SELECT COUNT(id) AS numberLikes FROM likes WHERE idea_id = %(u_id)s;'
+    # data4 = {"u_id": id}
+    # likerz = mysql4.query_db(query4, data4)
+    # session['numLikes'] = likerz
+
+    # for i in likerz:
+    #     print("*" * 80)
+    #     print(i['likerz'])
+    #     print("*" * 80)
+
+
+    # mysql6 = connectToMySQL('great_ideas')
+    # query6 = 'SELECT COUNT(id) AS numberLikes FROM likes WHERE idea_id = %(u_id)s ORDER BY id;'
+    # data6 = {"u_id": id}
+    # likerz = mysql6.query_db(query6, data6)
+
+    # print("*" * 80)
+    # print(likerz)
+    # print("*" * 80)
+
+    # for i in likerz:
+    #     print("*" * 80)
+    #     print(i['numberLikes'])
+    #     print("*" * 80)
+
+    mysql5 = connectToMySQL('great_ideas')
+    num_likez = "SELECT COUNT(*) AS numOfLikes FROM likes WHERE %(_id)s ORDER BY id;"
+    data5 = {"_id": id}
+    num_likes = mysql5.query_db(num_likez, data5)
+    print("*" * 80)
+    # print(num_likes)
+    print("*" * 80)
 
 
     return redirect('/users/welcome')
@@ -330,6 +402,35 @@ def view_author(id):
     return render_template('view_author.html', userQuotes= userIdeas, user = user)
 
 
+@app.route('/posts/<id>/view_post', methods=['POST'])
+def view_post_info(id):
+    mysql = connectToMySQL('great_ideas')
+    query = "SELECT alias FROM users WHERE id IN (SELECT user_id FROM ideas WHERE id = %(_id)s;"
+    data = {"_id": id}
+    author= mysql.query_db(query, data)
+
+    mysql2 = connectToMySQL('great_ideas')
+    query2 = "SELECT idea_content FROM ideas WHERE id = %(_id)s;"
+    data2 = {"_id": id}
+    idea_piece = mysql2.query_db(query2, data2)
+
+    # print("*" * 80)
+    # print(idea_piece)
+
+    # mysql2 = connectToMySQL('great_ideas')
+    # query2 = "SELECT"
+
+    mysql3 = connectToMySQL('great_ideas')
+    query3 = "SELECT user_id AS users FROM likes WHERE idea_id = %(_id)s;"
+    data3 = {"_id": id}
+    users_by_id = mysql3.query_db(query3, data3)
+    
+
+    for i in users_by_id:
+        print(i['users'])
+        print("*" * 80)
+
+    return render_template('view_post.html', author=author, idea_piece=idea_piece, userz = users_by_id)
 
 
 

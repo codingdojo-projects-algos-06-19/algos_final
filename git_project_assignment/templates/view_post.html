@@ -37,14 +37,17 @@
                 {% endif %}
             {% endwith %}
             <hr>
+
+            {% for i in userz %} {{i['users']}} {% endfor %}
         
 
 
             
             <div class="container">
-                <h3><p>{{user}} says: {{idea_content}}</p></h3>
+                <h3><p>{{author}} says: {{idea_piece}}</p></h3>
             </div>
             <hr>
+            <p>People who liked this post:</p>
             <div class="container">
                     <table class="table table-striped">
                         <thead>
@@ -54,11 +57,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for user in users %}
+                            {% for i in userz %}
                             <tr>
-                                <td>{{user.alias}}</td>
-                                <td>{{user.first_name}} {{user.last_name}}</td>
+                                <td>{{i['users.alias']}}</td>
+                                <td>{{i['users.first_name']}} {{i['users.last_name']}}</td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
             </div>
